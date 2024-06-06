@@ -9,34 +9,30 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 /**
- * Class LigneVente
+ * Class Fournisseur
  * 
- * @property int $id_ligne_vente
- * @property int|null $quantite_vendu
- * @property int|null $vente_id
- * @property int|null $produit_id
+ * @property int $id_fournisseur
+ * @property string|null $code_fournisseur
+ * @property string|null $nom_fournisseur
+ * @property string|null $adresse_fournisseur
+ * @property string|null $telephone_fournisseur
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
  * @package App\Models
  */
-class LigneVente extends Model
+class Fournisseur extends Model
 {
     use HasFactory;
 
-    protected $table = 'LigneVente';
-    protected $primaryKey = 'id_ligne_vente';
-
-    protected $casts = [
-        'quantite_vendu' => 'int',
-        'vente_id' => 'int',
-        'produit_id' => 'int'
-    ];
+    protected $table = 'Fournisseur';
+    protected $primaryKey = 'id_fournisseur';
 
     protected $fillable = [
-        'quantite_vendu',
-        'vente_id',
-        'produit_id'
+        'code_fournisseur',
+        'nom_fournisseur',
+        'adresse_fournisseur',
+        'telephone_fournisseur'
     ];
 
     /**
@@ -59,9 +55,10 @@ class LigneVente extends Model
     public function validate()
     {
         $validator = Validator::make($this->attributes, [
-            'quantite_vendu' => 'nullable|integer|min:0',
-            'vente_id' => 'nullable|exists:ventes,id',
-            'produit_id' => 'nullable|exists:produits,id',
+            'code_fournisseur' => 'nullable|string|max:255|unique:Fournisseur,code_fournisseur,' . $this->id_fournisseur . ',id_fournisseur',
+            'nom_fournisseur' => 'nullable|string|max:255',
+            'adresse_fournisseur' => 'nullable|string|max:255',
+            'telephone_fournisseur' => 'nullable|string|max:20',
         ]);
 
         if ($validator->fails()) {
@@ -70,18 +67,10 @@ class LigneVente extends Model
     }
 
     /**
-     * Get the vente that owns the ligneVente.
+     * Get the commandes for the fournisseur.
      */
-    public function vente()
+    public function commandes()
     {
-        return $this->belongsTo(Vente::class);
-    }
-
-    /**
-     * Get the produit that owns the ligneVente.
-     */
-    public function produit()
-    {
-        return $this->belongsTo(Produit::class);        
+        return $this->hasMany(Commande::class);
     }
 }

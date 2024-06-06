@@ -9,33 +9,36 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 /**
- * Class LigneVente
+ * Class Stocker
  * 
- * @property int $id_ligne_vente
- * @property int|null $quantite_vendu
- * @property int|null $vente_id
- * @property int|null $produit_id
+ * @property int $id_stock
+ * @property int|null $qte_stocke
+ * @property int|null $dump
+ * @property int|null $id_magasin
+ * @property int|null $id_produit
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
  * @package App\Models
  */
-class LigneVente extends Model
+class Stocker extends Model
 {
     use HasFactory;
 
-    protected $table = 'LigneVente';
-    protected $primaryKey = 'id_ligne_vente';
+    protected $table = 'Stocker';
+    protected $primaryKey = 'id_stock';
 
     protected $casts = [
-        'quantite_vendu' => 'int',
-        'vente_id' => 'int',
+        'qte_stocke' => 'int',
+        'dump' => 'int',
+        'magasin_id' => 'int',
         'produit_id' => 'int'
     ];
 
     protected $fillable = [
-        'quantite_vendu',
-        'vente_id',
+        'qte_stocke',
+        'dump',
+        'magasin_id',
         'produit_id'
     ];
 
@@ -59,9 +62,10 @@ class LigneVente extends Model
     public function validate()
     {
         $validator = Validator::make($this->attributes, [
-            'quantite_vendu' => 'nullable|integer|min:0',
-            'vente_id' => 'nullable|exists:ventes,id',
-            'produit_id' => 'nullable|exists:produits,id',
+            'qte_stocke' => 'nullable|integer|min:0',
+            'dump' => 'nullable|integer',
+            'magasin_id' => 'nullable|integer|exists:magasins,id', // Assuming 'magasins' is the table name for Magasin model
+            'produit_id' => 'nullable|integer|exists:produits,id', // Assuming 'produits' is the table name for Produit model
         ]);
 
         if ($validator->fails()) {
@@ -70,18 +74,18 @@ class LigneVente extends Model
     }
 
     /**
-     * Get the vente that owns the ligneVente.
-     */
-    public function vente()
-    {
-        return $this->belongsTo(Vente::class);
-    }
-
-    /**
-     * Get the produit that owns the ligneVente.
+     * Get the produit associated with the stocker.
      */
     public function produit()
     {
-        return $this->belongsTo(Produit::class);        
+        return $this->belongsTo(Produit::class);
+    }
+
+    /**
+     * Get the magasin associated with the stocker.
+     */
+    public function magasin()
+    {
+        return $this->belongsTo(Magasin::class);
     }
 }

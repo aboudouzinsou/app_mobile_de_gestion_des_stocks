@@ -9,34 +9,26 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 /**
- * Class LigneVente
+ * Class Magasin
  * 
- * @property int $id_ligne_vente
- * @property int|null $quantite_vendu
- * @property int|null $vente_id
- * @property int|null $produit_id
+ * @property int $id_magasin
+ * @property string|null $code
+ * @property string|null $libelle
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
  * @package App\Models
  */
-class LigneVente extends Model
+class Magasin extends Model
 {
     use HasFactory;
 
-    protected $table = 'LigneVente';
-    protected $primaryKey = 'id_ligne_vente';
-
-    protected $casts = [
-        'quantite_vendu' => 'int',
-        'vente_id' => 'int',
-        'produit_id' => 'int'
-    ];
+    protected $table = 'Magasin';
+    protected $primaryKey = 'id_magasin';
 
     protected $fillable = [
-        'quantite_vendu',
-        'vente_id',
-        'produit_id'
+        'code',
+        'libelle'
     ];
 
     /**
@@ -59,9 +51,8 @@ class LigneVente extends Model
     public function validate()
     {
         $validator = Validator::make($this->attributes, [
-            'quantite_vendu' => 'nullable|integer|min:0',
-            'vente_id' => 'nullable|exists:ventes,id',
-            'produit_id' => 'nullable|exists:produits,id',
+            'code' => 'nullable|string|max:255',
+            'libelle' => 'nullable|string|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -70,18 +61,34 @@ class LigneVente extends Model
     }
 
     /**
-     * Get the vente that owns the ligneVente.
+     * Get the receptions for the magasin.
      */
-    public function vente()
+    public function receptions()
     {
-        return $this->belongsTo(Vente::class);
+        return $this->hasMany(Reception::class);
     }
 
     /**
-     * Get the produit that owns the ligneVente.
+     * Get the produits for the magasin.
      */
-    public function produit()
+    public function produits()
     {
-        return $this->belongsTo(Produit::class);        
+        return $this->hasMany(Produit::class);
+    }
+
+    /**
+     * Get the stockers for the magasin.
+     */
+    public function stockers()
+    {
+        return $this->hasMany(Stocker::class);
+    }
+
+    /**
+     * Get the inventaires for the magasin.
+     */
+    public function inventaires()
+    {
+        return $this->hasMany(Inventaire::class);
     }
 }

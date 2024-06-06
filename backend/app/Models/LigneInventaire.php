@@ -9,33 +9,33 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 /**
- * Class LigneVente
+ * Class LigneInventaire
  * 
- * @property int $id_ligne_vente
- * @property int|null $quantite_vendu
- * @property int|null $vente_id
+ * @property int $id_ligne_inventaire
+ * @property int|null $qte_produit_inv
+ * @property int|null $inventaire_id
  * @property int|null $produit_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
  * @package App\Models
  */
-class LigneVente extends Model
+class LigneInventaire extends Model
 {
     use HasFactory;
 
-    protected $table = 'LigneVente';
-    protected $primaryKey = 'id_ligne_vente';
+    protected $table = 'LigneInventaire';
+    protected $primaryKey = 'id_ligne_inventaire';
 
     protected $casts = [
-        'quantite_vendu' => 'int',
-        'vente_id' => 'int',
+        'qte_produit_inv' => 'int',
+        'inventaire_id' => 'int',
         'produit_id' => 'int'
     ];
 
     protected $fillable = [
-        'quantite_vendu',
-        'vente_id',
+        'qte_produit_inv',
+        'inventaire_id',
         'produit_id'
     ];
 
@@ -59,8 +59,8 @@ class LigneVente extends Model
     public function validate()
     {
         $validator = Validator::make($this->attributes, [
-            'quantite_vendu' => 'nullable|integer|min:0',
-            'vente_id' => 'nullable|exists:ventes,id',
+            'qte_produit_inv' => 'nullable|integer|min:0',
+            'inventaire_id' => 'nullable|exists:inventaires,id',
             'produit_id' => 'nullable|exists:produits,id',
         ]);
 
@@ -70,18 +70,18 @@ class LigneVente extends Model
     }
 
     /**
-     * Get the vente that owns the ligneVente.
+     * Get the inventaire that owns the ligneInventaire.
      */
-    public function vente()
+    public function inventaire()
     {
-        return $this->belongsTo(Vente::class);
+        return $this->belongsTo(Inventaire::class);
     }
 
     /**
-     * Get the produit that owns the ligneVente.
+     * Get the produit that owns the ligneInventaire.
      */
     public function produit()
     {
-        return $this->belongsTo(Produit::class);        
+        return $this->belongsTo(Produit::class);
     }
 }

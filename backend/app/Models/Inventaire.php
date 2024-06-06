@@ -9,34 +9,32 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 /**
- * Class LigneVente
+ * Class Inventaire
  * 
- * @property int $id_ligne_vente
- * @property int|null $quantite_vendu
- * @property int|null $vente_id
- * @property int|null $produit_id
+ * @property int $id_inventaire
+ * @property Carbon|null $date_inventaire
+ * @property int $exercice_id
+ * @property int $magasin_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
  * @package App\Models
  */
-class LigneVente extends Model
+class Inventaire extends Model
 {
     use HasFactory;
 
-    protected $table = 'LigneVente';
-    protected $primaryKey = 'id_ligne_vente';
+    protected $table = 'Inventaire';
+    protected $primaryKey = 'id_inventaire';
 
     protected $casts = [
-        'quantite_vendu' => 'int',
-        'vente_id' => 'int',
-        'produit_id' => 'int'
+        'date_inventaire' => 'datetime'
     ];
 
     protected $fillable = [
-        'quantite_vendu',
-        'vente_id',
-        'produit_id'
+        'date_inventaire',
+        'exercice_id',
+        'magasin_id'
     ];
 
     /**
@@ -59,9 +57,9 @@ class LigneVente extends Model
     public function validate()
     {
         $validator = Validator::make($this->attributes, [
-            'quantite_vendu' => 'nullable|integer|min:0',
-            'vente_id' => 'nullable|exists:ventes,id',
-            'produit_id' => 'nullable|exists:produits,id',
+            'date_inventaire' => 'nullable|date',
+            'exercice_id' => 'required|exists:exercices,id',
+            'magasin_id' => 'required|exists:magasins,id',
         ]);
 
         if ($validator->fails()) {
@@ -70,18 +68,26 @@ class LigneVente extends Model
     }
 
     /**
-     * Get the vente that owns the ligneVente.
+     * Get the exercice that owns the inventaire.
      */
-    public function vente()
+    public function exercice()
     {
-        return $this->belongsTo(Vente::class);
+        return $this->belongsTo(Exercice::class);
     }
 
     /**
-     * Get the produit that owns the ligneVente.
+     * Get the magasin that owns the inventaire.
      */
-    public function produit()
+    public function magasin()
     {
-        return $this->belongsTo(Produit::class);        
+        return $this->belongsTo(Magasin::class);
+    }
+
+    /**
+     * Get the lignesInventaire for the inventaire.
+     */
+    public function lignesInventaire()
+    {
+        return $this->hasMany(LigneInventaire::class);
     }
 }

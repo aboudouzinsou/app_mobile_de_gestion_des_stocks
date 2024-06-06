@@ -2,27 +2,80 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
+/**
+ * Class Personnel
+ * 
+ * @property int $id_personnel
+ * @property string|null $code_personnel
+ * @property string|null $nom_personnel
+ * @property string|null $sexe
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ *
+ * @package App\Models
+ */
 class Personnel extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'nom',
-        'prenom',
-        'sexe',
-        'user_id'
-    ] ;
+    protected $table = 'Personnel';
+    protected $primaryKey = 'id_personnel';
 
-    public function user()
+    protected $fillable = [
+        'code_personnel',
+        'nom_personnel',
+        'sexe'
+    ];
+
+    /**
+     * Boot the model.
+     */
+    protected static function boot()
     {
-        return $this->belongsTo(User::class);
+        parent::boot();
+
+        static::saving(function ($model) {
+            $model->validate();
+        });
     }
 
+    /**
+     * Validate the model's attributes.
+     *
+     * @throws ValidationException
+     */
+    public function validate()
+    {
+        $validator = Validator::make($this->attributes, [
+            'code_personnel' => 'nullable|string|max:255',
+            'nom_personnel' => 'nullable|string|max:255',
+            'sexe' => 'nullable|string|in:male,female,other',  // Assuming sexe can be 'male', 'female', or 'other'
+        ]);
+
+        if ($validator->fails()) {
+            throw new ValidationException($validator);
+        }
+    }
+
+    /**
+     * Get the caisse associated with the personnel.
+     */
     public function caisse()
     {
         return $this->hasOne(Caisse::class);
+    }
+
+    /**
+     * Get the user associated with the personnel.
+     */
+    public function user()
+    {
+        return $this->hasOne(User::class);
     }
 }
