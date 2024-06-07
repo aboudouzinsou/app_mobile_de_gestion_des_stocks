@@ -23,8 +23,7 @@ class Magasin extends Model
 {
     use HasFactory;
 
-    protected $table = 'Magasin';
-    protected $primaryKey = 'id_magasin';
+    protected $table = 'magasins';    
 
     protected $fillable = [
         'code',

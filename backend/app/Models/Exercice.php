@@ -24,8 +24,7 @@ class Exercice extends Model
 {
     use HasFactory;
 
-    protected $table = 'Exercice';
-    protected $primaryKey = 'id_exercice';
+    protected $table = 'exercices';    
 
     protected $casts = [
         'date_debut' => 'datetime',

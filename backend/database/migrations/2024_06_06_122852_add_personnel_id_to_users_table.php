@@ -1,27 +1,34 @@
 <?php
 
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('personnel_id'); // Assuming personnel_id is a foreign key
-
-
-
-            $table->foreign('personnel_id')->references('id')->on('personnels')->onDelete('cascade'); // Assuming the table name is 'personnels'
+            $table->foreignId('personnel_id')->constrained('personnels')->onDelete('cascade');
         });
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['personnel_id']); // Supprime la clé étrangère
-            $table->dropColumn('personnel_id');    // Supprime la colonne personnel_id
+            $table->dropForeign(['personnel_id']);
+            $table->dropColumn('personnel_id');
         });
     }
 };

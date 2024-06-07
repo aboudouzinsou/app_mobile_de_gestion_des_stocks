@@ -24,8 +24,7 @@ class Personnel extends Model
 {
     use HasFactory;
 
-    protected $table = 'Personnel';
-    protected $primaryKey = 'id_personnel';
+    protected $table = 'personnels';    
 
     protected $fillable = [
         'code_personnel',

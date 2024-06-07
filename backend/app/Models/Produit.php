@@ -25,8 +25,7 @@ class Produit extends Model
 {
     use HasFactory;
 
-    protected $table = 'Produit';
-    protected $primaryKey = 'id_produit';
+    protected $table = 'produits';    
 
     protected $casts = [
         'prix' => 'float',

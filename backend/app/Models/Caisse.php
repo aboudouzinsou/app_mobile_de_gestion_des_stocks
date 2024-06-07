@@ -24,8 +24,7 @@ class Caisse extends Model
 {
     use HasFactory;
 
-    protected $table = 'Caisse';
-    protected $primaryKey = 'id_caisse';
+    protected $table = 'caisses';    
 
     protected $fillable = [
         'code',

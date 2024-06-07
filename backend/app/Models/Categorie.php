@@ -23,8 +23,7 @@ class Categorie extends Model
 {
     use HasFactory;
 
-    protected $table = 'Categorie';
-    protected $primaryKey = 'id_categorie';
+    protected $table = 'categories';    
 
     protected $fillable = [
         'code',

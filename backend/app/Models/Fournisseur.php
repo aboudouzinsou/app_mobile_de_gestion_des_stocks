@@ -25,8 +25,7 @@ class Fournisseur extends Model
 {
     use HasFactory;
 
-    protected $table = 'Fournisseur';
-    protected $primaryKey = 'id_fournisseur';
+    protected $table = 'fournisseurs';   
 
     protected $fillable = [
         'code_fournisseur',

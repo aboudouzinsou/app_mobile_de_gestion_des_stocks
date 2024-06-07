@@ -24,18 +24,17 @@ class Reception extends Model
 {
     use HasFactory;
 
-    protected $table = 'Reception';
-    protected $primaryKey = 'id_reception';
+    protected $table = 'receptions';    
 
     protected $casts = [
         'date_reception' => 'datetime',
-        'id_commande' => 'int'
+        'commande_id' => 'int'
     ];
 
     protected $fillable = [
         'numero_reception',
         'date_reception',
-        'id_commande',
+        'commande_id',
         'exercice_id',
         'magasin_id'
     ];
@@ -62,7 +61,7 @@ class Reception extends Model
         $validator = Validator::make($this->attributes, [
             'numero_reception' => 'nullable|string|max:255',
             'date_reception' => 'nullable|date',
-            'id_commande' => 'nullable|integer|exists:commandes,id', // Assuming 'commandes' is the table name for Commande model
+            'commande_id' => 'nullable|integer|exists:commandes,id', // Assuming 'commandes' is the table name for Commande model
             'exercice_id' => 'nullable|integer|exists:exercices,id', // Assuming 'exercices' is the table name for Exercice model
             'magasin_id' => 'nullable|integer|exists:magasins,id', // Assuming 'magasins' is the table name for Magasin model
         ]);

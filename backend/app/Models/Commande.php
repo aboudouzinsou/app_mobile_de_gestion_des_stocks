@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
@@ -29,8 +30,7 @@ class Commande extends Model
 {
     use HasFactory;
 
-    protected $table = 'Commande';
-    protected $primaryKey = 'id_commande';
+    protected $table = 'commandes';    
 
     protected $casts = [
         'date_emission' => 'datetime',

@@ -25,8 +25,7 @@ class Stocker extends Model
 {
     use HasFactory;
 
-    protected $table = 'Stocker';
-    protected $primaryKey = 'id_stock';
+    protected $table = 'stockers';   
 
     protected $casts = [
         'qte_stocke' => 'int',

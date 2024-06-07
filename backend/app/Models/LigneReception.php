@@ -25,8 +25,7 @@ class LigneReception extends Model
 {
     use HasFactory;
 
-    protected $table = 'LigneReception';
-    protected $primaryKey = 'id_ligne_reception';
+    protected $table = 'ligne_receptions';    
 
     protected $casts = [
         'quantite_recu' => 'int',

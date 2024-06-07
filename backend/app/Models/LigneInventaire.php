@@ -24,8 +24,7 @@ class LigneInventaire extends Model
 {
     use HasFactory;
 
-    protected $table = 'LigneInventaire';
-    protected $primaryKey = 'id_ligne_inventaire';
+    protected $table = 'ligne_inventaires';    
 
     protected $casts = [
         'qte_produit_inv' => 'int',

@@ -25,8 +25,7 @@ class Vente extends Model
 {
     use HasFactory;
 
-    protected $table = 'Ventes';
-    protected $primaryKey = 'id_vente';
+    protected $table = 'ventes';
 
     protected $casts = [
         'caisse_id' => 'int',

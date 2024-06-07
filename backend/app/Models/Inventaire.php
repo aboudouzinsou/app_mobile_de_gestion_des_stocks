@@ -24,8 +24,7 @@ class Inventaire extends Model
 {
     use HasFactory;
 
-    protected $table = 'Inventaire';
-    protected $primaryKey = 'id_inventaire';
+    protected $table = 'inventaires';    
 
     protected $casts = [
         'date_inventaire' => 'datetime'

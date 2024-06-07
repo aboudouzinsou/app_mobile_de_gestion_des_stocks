@@ -24,8 +24,7 @@ class LigneVente extends Model
 {
     use HasFactory;
 
-    protected $table = 'LigneVente';
-    protected $primaryKey = 'id_ligne_vente';
+    protected $table = 'ligne_ventes';    
 
     protected $casts = [
         'quantite_vendu' => 'int',
